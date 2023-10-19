@@ -20,7 +20,7 @@ public class CentralIndexingServer {
 			while(true){
 				Socket cisSocket = socket.accept();
 				//thread creation
-				Thread workThread = new Thread(new cisServices(cisSocket));
+				Thread workThread = new Thread(new CisServices(cisSocket));
 				workThread.start();
 			}		
 		}
