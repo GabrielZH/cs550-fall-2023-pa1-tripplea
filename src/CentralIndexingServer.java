@@ -13,7 +13,8 @@ public class CentralIndexingServer {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try{
-            int cisPort = Integer.parseInt(GetParameter.byName("cisPort"));
+			String[] cisIpAddrAndPort = GetParameter.byName("cisId").split(":");
+            int cisPort = Integer.parseInt(cisIpAddrAndPort[1].trim());
 			ServerSocket socket = new ServerSocket(cisPort);
 			System.out.println("Server is up and running!!!");
 			while(true){
@@ -33,14 +34,14 @@ public class CentralIndexingServer {
  * Class cisServices has all the functionality
  * It runs on the thread 
  */
-class cisServices implements Runnable{
+class CisServices implements Runnable{
 	
 	public static HashMap<String,ArrayList<String>> fileMap = new HashMap<String, ArrayList<String>>();
 	
 	public Socket cisSocket;
 	int count=0;
 	// constructor to initialize socket
-	public cisServices(Socket socket)throws IOException{
+	public CisServices(Socket socket)throws IOException{
 		this.cisSocket = socket;
 	}
 
@@ -159,7 +160,7 @@ class cisServices implements Runnable{
 				fileMap.put(fileName, newList);
 			}
 			else{
-				for(int i = 0; i <oldList.size();i++){
+				for(int i = 0; i < oldList.size(); i++){
 					if(oldList.get(i).equals(peerId)){
 						oldList.remove(i);
 					}
